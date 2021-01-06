@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="https://java.sun.com/jsf/facelets"    
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+    
+   
+ 	<h:head>
+        <title>JSF Tree Example</title>
+        <h:head>
+	<script name="jquery/jquery.js" library="primefaces"></script>
+</h:head>
+    </h:head>
+    <h:body>
+    
+   
+    
+    	<h:form>
+    		<h3>Add Controls</h3>
+    		
+    		<h:selectOneMenu value="#{treeBean.selectedControl}" required="true" valueChangeListener="#{treeBean.localeChanged}" onchange="submit()"
+		label="Select UI control to add.. " title="Select UI control" >
+		       <f:selectItem itemLabel="---Select UI Control to Add---" noSelectionOption="true"></f:selectItem>
+                <f:selectItem itemValue="TAB" itemLabel="TAB" />
+                <f:selectItem itemValue="Section" itemLabel="Section" />
+                <f:selectItem itemValue="TextField" itemLabel="TextField" />
+                <f:selectItem itemValue="CheckBox" itemLabel="CheckBox" />
+                <f:selectItem itemValue="Radio Button" itemLabel="Radio Button" />
+                <f:selectItem itemValue="Buttons" itemLabel="Buttons" />
+        </h:selectOneMenu>
+    		
+		    <p:tree value="#{treeBean.root}" var="node" dynamic="true" selectionMode="single" selection="#{treeBean.singleSelectedTreeNode}">
+		    <p:ajax process="@this"   event="select"  update=":myForm:dymanicForm"  listener="#{treeBean.onNodeDocumentSelect}" />
+		        <p:treeNode icon="pi pi-paperclip" expandedIcon="ui-icon ui-icon-folder-open"
+						collapsedIcon="ui-icon ui-icon-folder-collapsed">
+		            <h:outputText value="#{node}" />
+		            
+		        </p:treeNode>
+		        <p:ajax event="select" listener="#{treeBean.onNodeSelect}"></p:ajax>
+		       
+		    </p:tree>  
+		    
+		   
+                 
+   
+		    
+      	</h:form>
+      	
+      	<h:form id="myForm">
+<p:panel id="panel222" header="Info Doccs" style="height:400px">
+
+    <p:panel id="dymanicForm" >     
+        <ui:repeat value="#{treeBean.fields}" var="componentMetadata">
+            <h:panelGrid  columns="3">
+               <h:outputText value="#{componentMetadata.label}"/>:
+              <p:inputText id="field" value="#{componentMetadata.value}" 
+                 required="true" label="#{componentMetadata.label}"/>
+            <h:message for="field" style="color:red" /></h:panelGrid>
+        </ui:repeat>
+    </p:panel> 
+    <h:commandButton value="Submit" action="result" />
+  </p:panel>
+   </h:form>
+   
+   
+  
+      	  	
+    
+    </h:body>
+</html>

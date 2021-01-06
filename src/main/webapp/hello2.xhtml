@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="https://java.sun.com/jsf/facelets"    
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+    
+   
+ 	<h:head>
+       
+       <h1>JSF</h1>
+    </h:head>
+    <h:body>
+    
+   <h:form>
+   
+  
+   
+   <h:selectOneMenu value="#{treeBean.selectedControl}" required="true" valueChangeListener="#{treeBean.localeChanged}" onchange="submit()"
+		label="Select UI control to add.. " title="Select UI control" >
+		       <f:selectItem itemLabel="---Select UI Control to Add---" noSelectionOption="true"></f:selectItem>
+                <f:selectItem itemValue="TAB" itemLabel="TAB" />
+                <f:selectItem itemValue="Section" itemLabel="Section" />
+                <f:selectItem itemValue="TextField" itemLabel="TextField" />
+                <f:selectItem itemValue="CheckBox" itemLabel="CheckBox" />
+                <f:selectItem itemValue="Radio Button" itemLabel="Radio Button" />
+                <f:selectItem itemValue="Buttons" itemLabel="Buttons" />
+        </h:selectOneMenu>
+   
+     <p:layout fullPage="false" stateful="false" style="height:400px">
+     
+      <p:layoutUnit position="center" >
+            <p:outputPanel  id="details" style="padding: 5em">
+                <p:panelGrid  rendered="#{treeBean.textField.fields != null}" binding="#{treeBean.panelgrid}" id="PanelGrid11111" columns="2">
+                  
+                    
+                    
+                </p:panelGrid>
+				
+               
+            </p:outputPanel>
+            
+            <p:commandButton value="Add Control" style="margin-top: 10px;" update="@this" process="@this" ajax="true" type="submit">
+						<p:ajax listener="#{treeBean.createTree}" ></p:ajax>
+					</p:commandButton>
+					
+			 
+					
+        </p:layoutUnit> 
+       <p:layoutUnit position="east" size="65%" minSize="150"> 
+            <p:tree id="tree" var="data" nodeVar="root"
+					value="#{treeBean.root}" selectionMode="single"
+					dynamic="true" animate="true" highlight="true"
+					style="border: 0, width: 200px"
+					selection="#{treeBean.singleSelectedTreeNode}">
+
+					<p:ajax event="select"
+						listener="#{treeBean.onNodeDocumentSelect}"
+						process="@this" update="@this @form" />
+					<p:ajax event="expand" process="@this" />
+					<p:ajax event="collapse" process="@this" />
+
+					<p:treeNode expandedIcon="ui-icon-folder-open"
+						collapsedIcon="ui-icon-folder-collapsed">
+						<p:outputPanel id="node">
+							<h:outputText value="#{data}" />
+						</p:outputPanel>
+					</p:treeNode>
+				</p:tree>
+        </p:layoutUnit> 
+       
+         
+     </p:layout> 
+     
+      <h:commandButton value="Add " style="margin-top: 10px;" type="submit" action="#{treeBean.createTree}"/>
+        
+       
+        </h:form>
+      
+  
+  
+
+
+   
+   
+  
+      	  	
+    
+    </h:body>
+</html>
